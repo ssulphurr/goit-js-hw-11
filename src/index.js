@@ -1,4 +1,5 @@
 import './css/styles.css';
+import Notiflix from 'notiflix';
 
 const refs = {
   form: document.querySelector('#search-form'),
@@ -12,7 +13,7 @@ function onSubmit(evt) {
 
   fetchPictures(refs.form.elements.searchQuery.value).then(photos => {
     if (photos.total === 0) {
-      alert(
+      Notiflix.Notify.failure(
         'Sorry, there are no images matching your search query. Please try again.'
       );
       return;
