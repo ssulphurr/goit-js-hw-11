@@ -13,27 +13,28 @@ refs.loadMoreBtn.classList.add('hidden');
 
 refs.form.addEventListener('submit', onSubmit);
 
-function onSubmit(evt) {
+async function onSubmit(evt) {
   pageNum = 1;
 
   evt.preventDefault();
 
-  fetchPictures(refs.form.elements.searchQuery.value)
-    .then(photos => {
-      if (photos.total === 0) {
-        Notiflix.Notify.failure(
-          'Sorry, there are no images matching your search query. Please try again.'
-        );
-        return;
-      }
+  try {
+    const photos = await fetchPictures(refs.form.elements.searchQuery.value);
+    if (photos.total === 0) {
+      Notiflix.Notify.failure(
+        'Sorry, there are no images matching your search query. Please try again.'
+      );
+      return;
+    }
 
-      Notiflix.Notify.success(`"Hooray! We found ${photos.totalHits} images.`);
+    Notiflix.Notify.success(`"Hooray! We found ${photos.totalHits} images.`);
 
-      refs.gallery.innerHTML = '';
+    refs.gallery.innerHTML = '';
 
-      renderGallery(photos);
-    })
-    .catch(error => console.log(error));
+    renderGallery(photos);
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 async function fetchPictures(query) {
@@ -88,19 +89,20 @@ function showLoadBtn() {
 
 refs.loadMoreBtn.addEventListener('click', onLoadMore);
 
-function onLoadMore() {
+async function onLoadMore() {
   pageNum += 1;
 
-  fetchPictures(refs.form.elements.searchQuery.value)
-    .then(photos => {
-      if (photos.hits.length === 0) {
-        Notiflix.Notify.failure(
-          "We're sorry, but you've reached the end of search results."
-        );
-        return;
-      }
+  try {
+    const photos = await fetchPictures(refs.form.elements.searchQuery.value);
+    if (photos.hits.length === 0) {
+      Notiflix.Notify.failure(
+        "We're sorry, but you've reached the end of search results."
+      );
+      return;
+    }
 
-      renderGallery(photos);
-    })
-    .catch(error => console.log(error));
+    renderGallery(photos);
+  } catch (error) {
+    console.log(error);
+  }
 }
