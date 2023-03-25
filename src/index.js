@@ -42,16 +42,16 @@ function renderGallery(photos) {
                 <img src="${webformatURL}" alt="${tags}" loading="lazy" />
                 <div class="info">
                 <p class="info-item">
-                <b>Likes</b> ${likes}
+                <b>Likes</b></br> ${likes}
                 </p>
                 <p class="info-item">
-                <b>Views</b> ${views}
+                <b>Views</b></br> ${views}
                 </p>
                 <p class="info-item">
-                <b>Comments</b> ${comments}
+                <b>Comments</b></br> ${comments}
                 </p>
                 <p class="info-item">
-                <b>Downloads</b> ${downloads}
+                <b>Downloads</b></br> ${downloads}
                 </p>
             </div>
             </div>`;
@@ -60,6 +60,4 @@ function renderGallery(photos) {
     .join('');
 
   refs.gallery.insertAdjacentHTML('beforeend', markup);
-
-  console.log(5);
 }

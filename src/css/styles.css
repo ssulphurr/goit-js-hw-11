@@ -8,10 +8,55 @@
 
     width: 100%;
     position: fixed;
+    top: 0;
+    left: 0;
+
 }
 
 .search-form input,
 button {
     border-radius: 4px;
     padding: 4px 8px;
+}
+
+.gallery{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    justify-content: center;
+
+    margin-top: 70px;
+    margin-bottom: 20px;
+}
+
+.photo-card{
+    background-color: aliceblue;
+    border-radius: 5px;
+    box-shadow: 0 0.5 1.3 blue;
+
+    flex-basis: 10%;
+
+    min-width: 300px;
+}
+
+.photo-card img{
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius:  5px 5px 0 0;
+}
+
+.info{
+    display: flex;
+    gap: 8px;
+    justify-content: space-between;
+
+    padding: 4px 10px;
+}
+.info-item{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 0.7;
 }
