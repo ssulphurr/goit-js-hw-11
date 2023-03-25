@@ -15,7 +15,11 @@ function onSubmit(evt) {
       alert(
         'Sorry, there are no images matching your search query. Please try again.'
       );
+      return;
     }
+
+    refs.gallery.innerHTML = '';
+
     renderGallery(photos);
   });
 }
