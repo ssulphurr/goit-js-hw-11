@@ -14,6 +14,8 @@ refs.loadMoreBtn.classList.add('hidden');
 refs.form.addEventListener('submit', onSubmit);
 
 function onSubmit(evt) {
+  pageNum = 1;
+
   evt.preventDefault();
 
   fetchPictures(refs.form.elements.searchQuery.value).then(photos => {
@@ -23,6 +25,8 @@ function onSubmit(evt) {
       );
       return;
     }
+
+    Notiflix.Notify.success(`"Hooray! We found ${photos.totalHits} images.`);
 
     refs.gallery.innerHTML = '';
 
@@ -84,9 +88,9 @@ function onLoadMore() {
   pageNum += 1;
 
   fetchPictures(refs.form.elements.searchQuery.value).then(photos => {
-    if (photos.total === 0) {
+    if (photos.hits.length === 0) {
       Notiflix.Notify.failure(
-        'Sorry, there are no images matching your search query. Please try again.'
+        "We're sorry, but you've reached the end of search results."
       );
       return;
     }
