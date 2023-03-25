@@ -18,26 +18,30 @@ function onSubmit(evt) {
 
   evt.preventDefault();
 
-  fetchPictures(refs.form.elements.searchQuery.value).then(photos => {
-    if (photos.total === 0) {
-      Notiflix.Notify.failure(
-        'Sorry, there are no images matching your search query. Please try again.'
-      );
-      return;
-    }
+  fetchPictures(refs.form.elements.searchQuery.value)
+    .then(photos => {
+      if (photos.total === 0) {
+        Notiflix.Notify.failure(
+          'Sorry, there are no images matching your search query. Please try again.'
+        );
+        return;
+      }
 
-    Notiflix.Notify.success(`"Hooray! We found ${photos.totalHits} images.`);
+      Notiflix.Notify.success(`"Hooray! We found ${photos.totalHits} images.`);
 
-    refs.gallery.innerHTML = '';
+      refs.gallery.innerHTML = '';
 
-    renderGallery(photos);
-  });
+      renderGallery(photos);
+    })
+    .catch(error => console.log(error));
 }
 
-function fetchPictures(query) {
-  return fetch(
+async function fetchPictures(query) {
+  const response = await fetch(
     `https://pixabay.com/api/?key=34712470-649d4f955d7295175d07d13ae&q=${query}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=${pageNum}`
-  ).then(response => response.json());
+  );
+  const photos = await response.json();
+  return photos;
 }
 
 function renderGallery(photos) {
@@ -87,14 +91,16 @@ refs.loadMoreBtn.addEventListener('click', onLoadMore);
 function onLoadMore() {
   pageNum += 1;
 
-  fetchPictures(refs.form.elements.searchQuery.value).then(photos => {
-    if (photos.hits.length === 0) {
-      Notiflix.Notify.failure(
-        "We're sorry, but you've reached the end of search results."
-      );
-      return;
-    }
+  fetchPictures(refs.form.elements.searchQuery.value)
+    .then(photos => {
+      if (photos.hits.length === 0) {
+        Notiflix.Notify.failure(
+          "We're sorry, but you've reached the end of search results."
+        );
+        return;
+      }
 
-    renderGallery(photos);
-  });
+      renderGallery(photos);
+    })
+    .catch(error => console.log(error));
 }
