@@ -4,7 +4,12 @@ import Notiflix from 'notiflix';
 const refs = {
   form: document.querySelector('#search-form'),
   gallery: document.querySelector('.gallery'),
+  loadMoreBtn: document.querySelector('.load-more'),
 };
+
+let pageNum = 1;
+
+refs.loadMoreBtn.classList.add('hidden');
 
 refs.form.addEventListener('submit', onSubmit);
 
@@ -27,7 +32,7 @@ function onSubmit(evt) {
 
 function fetchPictures(query) {
   return fetch(
-    `https://pixabay.com/api/?key=34712470-649d4f955d7295175d07d13ae&q=${query}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40`
+    `https://pixabay.com/api/?key=34712470-649d4f955d7295175d07d13ae&q=${query}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=${pageNum}`
   ).then(response => response.json());
 }
 
@@ -65,4 +70,27 @@ function renderGallery(photos) {
     .join('');
 
   refs.gallery.insertAdjacentHTML('beforeend', markup);
+
+  showLoadBtn();
+}
+
+function showLoadBtn() {
+  refs.loadMoreBtn.classList.remove('hidden');
+}
+
+refs.loadMoreBtn.addEventListener('click', onLoadMore);
+
+function onLoadMore() {
+  pageNum += 1;
+
+  fetchPictures(refs.form.elements.searchQuery.value).then(photos => {
+    if (photos.total === 0) {
+      Notiflix.Notify.failure(
+        'Sorry, there are no images matching your search query. Please try again.'
+      );
+      return;
+    }
+
+    renderGallery(photos);
+  });
 }

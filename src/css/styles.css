@@ -13,10 +13,20 @@
 
 }
 
+button{
+    background-color: #C0EEF2;
+}
+
+button:hover, button:focus{
+    background-color: #E9F8F9;
+    cursor: pointer;
+}
+
 .search-form input,
 button {
     border-radius: 4px;
     padding: 4px 8px;
+    border: none;
 }
 
 .gallery{
@@ -59,4 +69,17 @@ button {
     flex-direction: column;
     align-items: center;
     line-height: 0.7;
+}
+
+.load-more{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+
+    border-radius: 4px;
+        padding: 4px 8px;
+}
+
+.hidden {
+    display: none;
 }
